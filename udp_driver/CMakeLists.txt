@@ -85,9 +85,10 @@ target_link_libraries(${UDP_DRIVER_EXE}
   ${PROJECT_NAME}
 )
 
-install(TARGETS
-	${UDP_DRIVER_EXE}
-	DESTINATION lib/${PROJECT_NAME})
+install(
+  TARGETS ${UDP_DRIVER_EXE}
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 ament_package(
     CONFIG_EXTRAS_POST "udp_driver-extras.cmake"
