@@ -44,16 +44,11 @@ jobs:
           install-connext: false
           use-ros2-testing: false
           required-ros-distributions: ${{ matrix.ros_distribution }}
-      - uses: ros-tooling/action-ros-lint@master
-        with:
-          linter: flake8
-          package-name: udp_driver
-          distribution: ${{ matrix.ros_distribution }}
       - name: install dependencies
         run: "pip3 install -r ros_ws/src/requirements.txt"
       - name: build and test
         uses: ros-tooling/action-ros-ci@master
         with:
-          package-name: bno055
+          package-name: udp_driver serial_driver
           target-ros2-distro: ${{ matrix.ros_distribution }}
           vcs-repo-file-url: ""
