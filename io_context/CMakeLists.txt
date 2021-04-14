@@ -26,6 +26,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+## needed to build on windows
+if(WIN32)
+  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+  set(BUILD_SHARED_LIBS TRUE)
+endif()
+
 ## dependencies
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()

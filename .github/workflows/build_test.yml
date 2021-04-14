@@ -7,7 +7,33 @@ on:
       - 'main'
 
 jobs:
-  test_environment:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ros_distribution:
+          - foxy
+          - rolling
+        os: [macOS-latest, windows-latest]
+    steps:
+      - name: Setup ROS
+        uses: ros-tooling/setup-ros@0.0.25
+      - run: vcs --help
+      - name: setup directories
+        run: mkdir -p ros_ws/src
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          path: ros_ws/src
+      - name: build and test
+        uses: ros-tooling/action-ros-ci@master
+        with:
+          package-name: udp_driver serial_driver
+          target-ros2-distro: ${{ matrix.ros_distribution }}
+          vcs-repo-file-url: ""
+
+  linux:
     runs-on: [ubuntu-latest]
     strategy:
       fail-fast: false
