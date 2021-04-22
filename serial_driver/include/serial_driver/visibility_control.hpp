@@ -17,24 +17,35 @@
 #ifndef SERIAL_DRIVER__VISIBILITY_CONTROL_HPP_
 #define SERIAL_DRIVER__VISIBILITY_CONTROL_HPP_
 
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
 
-////////////////////////////////////////////////////////////////////////////////
-#if defined(__WIN32)
-  #if defined(SERIAL_DRIVER_BUILDING_DLL) || defined(SERIAL_DRIVER_EXPORTS)
-    #define SERIAL_DRIVER_PUBLIC __declspec(dllexport)
+#if defined _WIN32 || defined __CYGWIN__
+  #ifdef __GNUC__
+    #define SERIAL_DRIVER_EXPORT __attribute__ ((dllexport))
+    #define SERIAL_DRIVER_IMPORT __attribute__ ((dllimport))
+  #else
+    #define SERIAL_DRIVER_EXPORT __declspec(dllexport)
+    #define SERIAL_DRIVER_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef SERIAL_DRIVER_BUILDING_DLL
+    #define SERIAL_DRIVER_PUBLIC SERIAL_DRIVER_EXPORT
+  #else
+    #define SERIAL_DRIVER_PUBLIC SERIAL_DRIVER_IMPORT
+  #endif
+  #define SERIAL_DRIVER_PUBLIC_TYPE SERIAL_DRIVER_PUBLIC
+  #define SERIAL_DRIVER_LOCAL
+#else
+  #define SERIAL_DRIVER_EXPORT __attribute__ ((visibility("default")))
+  #define SERIAL_DRIVER_IMPORT
+  #if __GNUC__ >= 4
+    #define SERIAL_DRIVER_PUBLIC __attribute__ ((visibility("default")))
+    #define SERIAL_DRIVER_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define SERIAL_DRIVER_PUBLIC
     #define SERIAL_DRIVER_LOCAL
-  #else  // defined(SERIAL_DRIVER_BUILDING_DLL) || defined(SERIAL_DRIVER_EXPORTS)
-    #define SERIAL_DRIVER_PUBLIC __declspec(dllimport)
-    #define SERIAL_DRIVER_LOCAL
-  #endif  // defined(SERIAL_DRIVER_BUILDING_DLL) || defined(SERIAL_DRIVER_EXPORTS)
-#elif defined(__linux__)
-  #define SERIAL_DRIVER_PUBLIC __attribute__((visibility("default")))
-  #define SERIAL_DRIVER_LOCAL __attribute__((visibility("hidden")))
-#elif defined(__APPLE__)
-  #define SERIAL_DRIVER_PUBLIC __attribute__((visibility("default")))
-  #define SERIAL_DRIVER_LOCAL __attribute__((visibility("hidden")))
-#else  // defined(_LINUX)
-  #error "Unsupported Build Configuration"
-#endif  // defined(_WINDOWS)
+  #endif
+  #define SERIAL_DRIVER_PUBLIC_TYPE
+#endif
 
 #endif  // SERIAL_DRIVER__VISIBILITY_CONTROL_HPP_

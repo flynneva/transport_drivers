@@ -22,6 +22,8 @@
 #include "io_context/common.hpp"
 #include "io_context/io_context.hpp"
 
+#include "serial_driver/visibility_control.hpp"
+
 using spb = asio::serial_port_base;
 using drivers::common::IoContext;
 
@@ -57,6 +59,7 @@ class SerialPortConfig
 {
 public:
   /// \brief Default constructor
+  SERIAL_DRIVER_PUBLIC
   SerialPortConfig(
     uint32_t baud_rate,
     FlowControl flow_control,
@@ -71,6 +74,7 @@ public:
 
   /// \brief Function that returns the configured buad rate
   /// \returns The configured buad rate in bps
+  SERIAL_DRIVER_PUBLIC
   uint32_t get_baud_rate() const
   {
     return m_baud_rate;
@@ -78,6 +82,7 @@ public:
 
   /// \brief Function that returns the configured baud rate as an ASIO object
   /// \returns The configured baud rate as an ASIO baud_rate object
+  SERIAL_DRIVER_PUBLIC
   spb::baud_rate get_baud_rate_asio() const
   {
     return spb::baud_rate{m_baud_rate};
@@ -85,6 +90,7 @@ public:
 
   /// \breif Function that returns the configured flow control
   /// \returns The configured flow control type
+  SERIAL_DRIVER_PUBLIC
   FlowControl get_flow_control() const
   {
     return m_flow_control;
@@ -92,6 +98,7 @@ public:
 
   /// \breif Function that returns the configured flow control as an ASIO object
   /// \returns The configured flow control type as an ASIO flow_control object
+  SERIAL_DRIVER_PUBLIC
   spb::flow_control::type get_flow_control_asio() const
   {
     switch (m_flow_control) {
@@ -109,6 +116,7 @@ public:
 
   /// \brief Function that returns the configured parity type
   /// \returns The configured parity type
+  SERIAL_DRIVER_PUBLIC
   Parity get_parity() const
   {
     return m_parity;
@@ -116,6 +124,7 @@ public:
 
   /// \brief Function that returns the configured parity type as an ASIO object
   /// \returns The configured parity type as an ASIO parity object
+  SERIAL_DRIVER_PUBLIC
   spb::parity::type get_parity_asio() const
   {
     switch (m_parity) {
@@ -133,6 +142,7 @@ public:
 
   /// \brief Function that returns the configured stop bits
   /// \returns The configured stop bits
+  SERIAL_DRIVER_PUBLIC
   StopBits get_stop_bits() const
   {
     return m_stop_bits;
@@ -140,6 +150,7 @@ public:
 
   /// \brief Function that returns the configured stop bits as an ASIO object
   /// \returns The configured stop bits as an ASIO stop_bits object
+  SERIAL_DRIVER_PUBLIC
   spb::stop_bits::type get_stop_bits_asio() const
   {
     switch (m_stop_bits) {
@@ -169,49 +180,64 @@ public:
   /// \param[in] ctx An IoContext object to handle threads
   /// \param[in] device_name The name of the serial device in the OS
   /// \param[in] serial_port_config Configuration options for the serial port
+  SERIAL_DRIVER_PUBLIC
   SerialPort(
     const IoContext & ctx,
     const std::string & device_name,
     const SerialPortConfig serial_port_config);
+  
+  SERIAL_DRIVER_PUBLIC
   ~SerialPort();
 
+  SERIAL_DRIVER_PUBLIC
   SerialPort(const SerialPort &) = delete;
+
+  SERIAL_DRIVER_PUBLIC
   SerialPort & operator=(const SerialPort &) = delete;
 
   /// \brief Function to return the stored device name
   /// \returns Device name as a string
+  SERIAL_DRIVER_PUBLIC
   std::string device_name() const;
 
   /// \brief Function to return the stored serial port configuration
   /// \returns SerialPortConfig object representing the stored serial port configuration
+  SERIAL_DRIVER_PUBLIC
   SerialPortConfig serial_port_config() const;
 
   /// \brief Function to open the serial port as-configured
+  SERIAL_DRIVER_PUBLIC
   void open();
 
   /// \brief Function to close the serial port as-configured
+  SERIAL_DRIVER_PUBLIC
   void close();
 
   /// \brief Function to check whether the port is already open
   /// \returns Bool indicating whether the port is currently open
+  SERIAL_DRIVER_PUBLIC
   bool is_open() const;
 
   /// \brief Blocking send operation
   /// \param[in] buff A buffer containing the data to send
   /// \returns The number of bytes sent
+  SERIAL_DRIVER_PUBLIC
   size_t send(const std::vector<uint8_t> & buff);
 
   /// \brief Bocking receive operation
   /// \param[out] buff A buffer to be populated with the read data
   /// \returns The number of bytes read
+  SERIAL_DRIVER_PUBLIC
   size_t receive(std::vector<uint8_t> & buff);
 
   /// \brief Non-blocking send operation
   /// \param[in] buff A buffer containing the data to send
+  SERIAL_DRIVER_PUBLIC
   void async_send(const std::vector<uint8_t> & buff);
 
   /// \brief Non-blocking receive operation
   /// \param[in] func A function to be called when data are received
+  SERIAL_DRIVER_PUBLIC
   void async_receive(Functor func);
 
 private:

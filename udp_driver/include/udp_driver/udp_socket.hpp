@@ -16,6 +16,7 @@
 
 #ifndef UDP_DRIVER__UDP_SOCKET_HPP_
 #define UDP_DRIVER__UDP_SOCKET_HPP_
+#include "udp_driver/visibility_control.hpp"
 
 #include <array>
 #include <string>
@@ -38,38 +39,58 @@ using Functor = std::function<void (const std::vector<uint8_t> &)>;
 class UdpSocket
 {
 public:
+  UDP_DRIVER_PUBLIC
   UdpSocket(const IoContext & ctx, const std::string & ip, uint16_t port);
+
+  UDP_DRIVER_PUBLIC
   ~UdpSocket();
 
+  UDP_DRIVER_PUBLIC
   UdpSocket(const UdpSocket &) = delete;
+
+  UDP_DRIVER_PUBLIC
   UdpSocket & operator=(const UdpSocket &) = delete;
 
+  UDP_DRIVER_PUBLIC
   std::string ip() const;
+
+  UDP_DRIVER_PUBLIC
   uint16_t port() const;
 
+  UDP_DRIVER_PUBLIC
   void open();
+
+  UDP_DRIVER_PUBLIC
   void close();
+
+  UDP_DRIVER_PUBLIC
   bool isOpen() const;
+
+  UDP_DRIVER_PUBLIC
   void bind();
 
   /*
    * Blocking Send Operation
    */
+  UDP_DRIVER_PUBLIC
   std::size_t send(std::vector<uint8_t> & buff);
 
   /*
    * Blocking Receive Operation
    */
+  UDP_DRIVER_PUBLIC
   size_t receive(std::vector<uint8_t> & buff);
 
   /*
    * NonBlocking Send Operation
    */
+  UDP_DRIVER_PUBLIC
   void asyncSend(std::vector<uint8_t> & buff);
 
   /*
    * NonBlocking Receive Operation
    */
+  UDP_DRIVER_PUBLIC
   void asyncReceive(Functor func);
 
 private:

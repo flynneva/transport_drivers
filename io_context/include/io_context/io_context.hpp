@@ -21,7 +21,10 @@
 #include <vector>
 #include <utility>
 
+#include <SDKDDKVer.h>  // gets rid of boost compiler warning
+
 #include "io_context/common.hpp"
+#include "io_context/visibility_control.hpp"
 
 namespace drivers
 {
@@ -59,19 +62,31 @@ struct thread_group
 class IoContext
 {
 public:
+  IO_CONTEXT_PUBLIC
   explicit IoContext(size_t threads_count = -1);
+
+  IO_CONTEXT_PUBLIC
   ~IoContext();
 
+  IO_CONTEXT_PUBLIC
   IoContext(const IoContext &) = delete;
+
+  IO_CONTEXT_PUBLIC
   IoContext & operator=(const IoContext &) = delete;
 
+  IO_CONTEXT_PUBLIC
   asio::io_service & ios() const;
 
+  IO_CONTEXT_PUBLIC
   bool isServiceStopped();
+
+  IO_CONTEXT_PUBLIC
   uint32_t serviceThreadCount();
 
+  IO_CONTEXT_PUBLIC
   void waitForExit();
 
+  
   template<class F>
   void post(F f)
   {

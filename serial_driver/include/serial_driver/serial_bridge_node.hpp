@@ -19,6 +19,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_lifecycle/lifecycle_node.hpp>
+#include <rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp>
 #include <lifecycle_msgs/msg/state.hpp>
 
 #include <chrono>
@@ -29,7 +30,7 @@
 #include "msg_converters/converters.hpp"
 
 namespace lc = rclcpp_lifecycle;
-using LNI = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface;
+using LNI = LifecycleNodeInterface;
 using example_interfaces::msg::UInt8MultiArray;
 
 namespace drivers

@@ -21,8 +21,12 @@
 #include <memory>
 #include <string>
 
+#include <SDKDDKVer.h>  // gets rid of boost compiler warning
+
 #include "io_context/io_context.hpp"
-#include "udp_socket.hpp"
+
+#include "udp_driver/udp_socket.hpp"
+#include "udp_driver/visibility_control.hpp"
 
 namespace drivers
 {
@@ -32,12 +36,19 @@ namespace udp_driver
 class UdpDriver
 {
 public:
+  UDP_DRIVER_PUBLIC
   explicit UdpDriver(const IoContext & ctx);
 
+  UDP_DRIVER_PUBLIC
   void init_sender(const std::string & ip, uint16_t port);
+
+  UDP_DRIVER_PUBLIC
   void init_receiver(const std::string & ip, uint16_t port);
 
+  UDP_DRIVER_PUBLIC
   std::shared_ptr<UdpSocket> sender() const;
+
+  UDP_DRIVER_PUBLIC
   std::shared_ptr<UdpSocket> receiver() const;
 
 private:

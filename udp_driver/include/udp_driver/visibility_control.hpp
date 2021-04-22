@@ -17,22 +17,36 @@
 #ifndef UDP_DRIVER__VISIBILITY_CONTROL_HPP_
 #define UDP_DRIVER__VISIBILITY_CONTROL_HPP_
 
-#if defined(__WIN32)
-#if defined(UDP_DRIVER_BUILDING_DLL) || defined(UDP_DRIVER_EXPORTS)
-#define UDP_DRIVER_PUBLIC __declspec(dllexport)
-#define UDP_DRIVER_LOCAL
-#else  // defined(UDP_DRIVER_BUILDING_DLL) || defined(UDP_DRIVER_EXPORTS)
-#define UDP_DRIVER_PUBLIC __declspec(dllimport)
-#define UDP_DRIVER_LOCAL
-#endif  // defined(UDP_DRIVER_BUILDING_DLL) || defined(UDP_DRIVER_EXPORTS)
-#elif defined(__linux__)
-#define UDP_DRIVER_PUBLIC __attribute__((visibility("default")))
-#define UDP_DRIVER_LOCAL __attribute__((visibility("hidden")))
-#elif defined(__APPLE__)
-#define UDP_DRIVER_PUBLIC __attribute__((visibility("default")))
-#define UDP_DRIVER_LOCAL __attribute__((visibility("hidden")))
-#else  // defined(_LINUX)
-#error "Unsupported Build Configuration"
-#endif  // defined(_WINDOWS)
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
+
+#if defined _WIN32 || defined __CYGWIN__
+  #ifdef __GNUC__
+    #define UDP_DRIVER_EXPORT __attribute__ ((dllexport))
+    #define UDP_DRIVER_IMPORT __attribute__ ((dllimport))
+  #else
+    #define UDP_DRIVER_EXPORT __declspec(dllexport)
+    #define UDP_DRIVER_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef UDP_DRIVER_BUILDING_DLL
+    #define UDP_DRIVER_PUBLIC UDP_DRIVER_EXPORT
+  #else
+    #define UDP_DRIVER_PUBLIC UDP_DRIVER_IMPORT
+  #endif
+  #define UDP_DRIVER_PUBLIC_TYPE UDP_DRIVER_PUBLIC
+  #define UDP_DRIVER_LOCAL
+#else
+  #define UDP_DRIVER_EXPORT __attribute__ ((visibility("default")))
+  #define UDP_DRIVER_IMPORT
+  #if __GNUC__ >= 4
+    #define UDP_DRIVER_PUBLIC __attribute__ ((visibility("default")))
+    #define UDP_DRIVER_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define UDP_DRIVER_PUBLIC
+    #define UDP_DRIVER_LOCAL
+  #endif
+  #define UDP_DRIVER_PUBLIC_TYPE
+#endif
 
 #endif  // UDP_DRIVER__VISIBILITY_CONTROL_HPP_
+

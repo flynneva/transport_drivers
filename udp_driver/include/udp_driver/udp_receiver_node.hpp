@@ -16,10 +16,17 @@
 #define UDP_DRIVER__UDP_RECEIVER_NODE_HPP_
 
 #include "udp_driver/udp_driver.hpp"
+#include "udp_driver/visibility_control.hpp"
 
-#include <rclcpp/rclcpp.hpp>
-#include <rclcpp_lifecycle/lifecycle_node.hpp>
-#include <lifecycle_msgs/msg/state.hpp>
+#include "lifecycle_msgs/msg/transition.hpp"
+
+#include "rclcpp/rclcpp.hpp"
+#include "rclcpp/subscription.hpp"
+
+#include "rclcpp_lifecycle/lifecycle_node.hpp"
+#include "rclcpp_lifecycle/lifecycle_publisher.hpp"
+#include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
+#include "lifecycle_msgs/msg/state.hpp"
 
 #include <chrono>
 #include <memory>
@@ -29,7 +36,7 @@
 #include "msg_converters/converters.hpp"
 
 namespace lc = rclcpp_lifecycle;
-using LNI = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface;
+using LNI = LifecycleNodeInterface;
 
 namespace drivers
 {
@@ -43,39 +50,48 @@ class UdpReceiverNode final
 public:
   /// \brief Default constructor
   /// \param[in] options Options for the node
+  UDP_DRIVER_PUBLIC
   explicit UdpReceiverNode(const rclcpp::NodeOptions & options);
 
   /// \brief Constructor which accepts IoContext
   /// \param[in] options Options for the node
   /// \param[in] ctx A shared IoContext
+  UDP_DRIVER_PUBLIC
   UdpReceiverNode(
     const rclcpp::NodeOptions &,
     const IoContext & ctx);
 
   /// \brief Destructor - required to manage owned IoContext
+  UDP_DRIVER_PUBLIC
   ~UdpReceiverNode();
 
   /// \brief Callback from transition to "configuring" state.
   /// \param[in] state The current state that the node is in.
+  UDP_DRIVER_PUBLIC
   LNI::CallbackReturn on_configure(const lc::State & state) override;
 
   /// \brief Callback from transition to "activating" state.
   /// \param[in] state The current state that the node is in.
+  UDP_DRIVER_PUBLIC
   LNI::CallbackReturn on_activate(const lc::State & state) override;
 
   /// \brief Callback from transition to "deactivating" state.
   /// \param[in] state The current state that the node is in.
+  UDP_DRIVER_PUBLIC
   LNI::CallbackReturn on_deactivate(const lc::State & state) override;
 
   /// \brief Callback from transition to "unconfigured" state.
   /// \param[in] state The current state that the node is in.
+  UDP_DRIVER_PUBLIC
   LNI::CallbackReturn on_cleanup(const lc::State & state) override;
 
   /// \brief Callback from transition to "shutdown" state.
   /// \param[in] state The current state that the node is in.
+  UDP_DRIVER_PUBLIC
   LNI::CallbackReturn on_shutdown(const lc::State & state) override;
 
   /// \breif Callback for receiving a UDP datagram
+  UDP_DRIVER_PUBLIC
   void receiver_callback(const std::vector<uint8_t> & buffer);
 
 private:

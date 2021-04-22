@@ -25,6 +25,11 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+if(WIN32)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+set(BUILD_SHARED_LIBS TRUE)
+endif()
+
 ## dependencies
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
@@ -50,6 +55,8 @@ rclcpp_components_register_node(${PROJECT_NAME}_nodes
 
 target_link_libraries(${PROJECT_NAME}_nodes ${PROJECT_NAME})
 ament_target_dependencies(${PROJECT_NAME}_nodes "ASIO")
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE "SERIAL_DRIVER_BUILDING_DLL")
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto)

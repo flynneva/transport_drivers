@@ -18,6 +18,8 @@
 #include <memory>
 #include <string>
 
+#include <SDKDDKVer.h>  // gets rid of boost compiler warning
+
 #include "io_context/io_context.hpp"
 #include "serial_driver/serial_port.hpp"
 
