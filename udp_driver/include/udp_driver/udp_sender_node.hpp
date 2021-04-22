@@ -35,7 +35,7 @@
 #include "msg_converters/converters.hpp"
 
 namespace lc = rclcpp_lifecycle;
-using LNI = LifecycleNodeInterface;
+using LNI = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface;
 
 namespace drivers
 {
