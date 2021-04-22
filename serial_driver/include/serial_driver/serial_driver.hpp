@@ -18,7 +18,9 @@
 #include <memory>
 #include <string>
 
+#ifdef _WIN32
 #include <SDKDDKVer.h>  // gets rid of boost compiler warning
+#endif
 
 #include "io_context/io_context.hpp"
 #include "serial_driver/serial_port.hpp"

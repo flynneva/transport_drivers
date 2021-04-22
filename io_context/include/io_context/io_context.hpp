@@ -21,7 +21,9 @@
 #include <vector>
 #include <utility>
 
+#ifdef _WIN32
 #include <SDKDDKVer.h>  // gets rid of boost compiler warning
+#endif
 
 #include "io_context/common.hpp"
 #include "io_context/visibility_control.hpp"
