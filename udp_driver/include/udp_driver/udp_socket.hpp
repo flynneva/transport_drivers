@@ -16,11 +16,11 @@
 
 #ifndef UDP_DRIVER__UDP_SOCKET_HPP_
 #define UDP_DRIVER__UDP_SOCKET_HPP_
-#include "udp_driver/visibility_control.hpp"
-
 #include <array>
 #include <string>
 #include <vector>
+
+#include "udp_driver/visibility_control.hpp"
 
 #include "io_context/io_context.hpp"
 #include "msg_converters/converters.hpp"

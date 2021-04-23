@@ -18,8 +18,8 @@
 #include <string>
 #include <vector>
 
-//namespace lc = rclcpp_lifecycle;
-//using LNI = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface;
+namespace lc = rclcpp_lifecycle;
+using LNI = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface;
 using lifecycle_msgs::msg::State;
 
 namespace drivers

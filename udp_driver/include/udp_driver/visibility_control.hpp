@@ -49,4 +49,3 @@
 #endif
 
 #endif  // UDP_DRIVER__VISIBILITY_CONTROL_HPP_
-

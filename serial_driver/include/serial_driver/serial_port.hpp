@@ -185,7 +185,7 @@ public:
     const IoContext & ctx,
     const std::string & device_name,
     const SerialPortConfig serial_port_config);
-  
+
   SERIAL_DRIVER_PUBLIC
   ~SerialPort();
 

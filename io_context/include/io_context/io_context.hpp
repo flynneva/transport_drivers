@@ -88,7 +88,7 @@ public:
   IO_CONTEXT_PUBLIC
   void waitForExit();
 
-  
+
   template<class F>
   void post(F f)
   {
