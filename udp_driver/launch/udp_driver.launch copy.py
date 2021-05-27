@@ -17,11 +17,13 @@ import lifecycle_msgs.msg
 def generate_launch_description():
     ld = launch.LaunchDescription()
 
-    parameters_file_path = Path(get_package_share_directory('udp_driver'), 'params', 'example_udp_params.yaml')
+    parameters_file_path = Path(get_package_share_directory('udp_driver'), 'params', 'rear.yaml')
 
     with open(parameters_file_path, 'r') as f:
         params = yaml.safe_load(f)['/**']['ros__parameters']
-    print(params)
+    
+    for port in params['port']:
+        print(port)
 
     udp_driver_receiver = LifecycleNode(
         namespace = '',
